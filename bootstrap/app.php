@@ -78,6 +78,7 @@ $app->configure('app');
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'is_admin' => App\Http\Middleware\IsAdmin::class,
 ]);
 
 /*
@@ -94,14 +95,7 @@ $app->routeMiddleware([
 // $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-$app->register(Illuminate\Mail\MailServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-
-/*  Aliases */
-$app->configure('mail');
-$app->alias('mailer', Illuminate\Mail\Mailer::class);
-$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
-$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 
 /*
 |--------------------------------------------------------------------------

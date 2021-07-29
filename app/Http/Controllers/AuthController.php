@@ -29,8 +29,10 @@ class AuthController extends Controller
             $user = new User;
             $user->name = $request->input('name');
             $user->email = $request->input('email');
+            $user->avatar = 'default.png';
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
+            $user->is_admin = 0;
 
             $user->save();
 
@@ -70,5 +72,17 @@ class AuthController extends Controller
         }
 
         return $this->respondWithToken($token);
+    }
+
+    /**
+     * Get a authenticate user.
+     *
+     * @param  Request  $request
+     * @return Response
+     */
+    public function profile(Request $request)
+    {
+        $user = Auth::user();
+        return response()->json(["data" => $user], 200);
     }
 }
