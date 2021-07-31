@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -37,7 +38,7 @@ class AuthController extends Controller
             $user->save();
 
             return response()->json(['user' => $user, 'message' => 'User Created!'], 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['message' => 'User Registration Failed!'], 409);
         }
     }

@@ -13,8 +13,9 @@ class CreateUrlShortenerTable extends Migration
      */
     public function up()
     {
-        Schema::create('url_shortener', function (Blueprint $table) {
+        Schema::create('url_shorteners', function (Blueprint $table) {
             $table->id();
+            $table->string('title')->default('none');
             $table->text('original_url');
             $table->string('short_url')->unique();
             $table->integer('visitors')->default(0);
@@ -30,6 +31,6 @@ class CreateUrlShortenerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('url_shortener');
+        Schema::dropIfExists('url_shorteners');
     }
 }
