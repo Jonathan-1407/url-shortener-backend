@@ -10,6 +10,28 @@ use Exception;
 class UserController extends Controller
 {
   /**
+   * Get all users with role administrator.
+   *
+   * @return Response
+   */
+  public function users(Request $request)
+  {
+    $query = $request->q;
+
+    if ($query == "") {
+      $users = User::where('id', '!=', Auth::user()->id)->where('is_admin', '!=', 1)->simplePaginate(8);
+    } else {
+      $users = User::where('id', '!=', Auth::user()->id)->where('is_admin', '!=', 1)->where(
+        function ($q) use ($query) {
+          $q->where('name', 'like', "%$query%")->where('email', 'like', "%$query%");
+        }
+      )->simplePaginate(8);
+    }
+
+    return response()->json(["users" => $users], 200);
+  }
+
+  /**
    * Update the specified resource in storage.
    *
    * @param  Request  $request

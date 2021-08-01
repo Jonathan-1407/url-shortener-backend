@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UrlReport;
 use App\Models\UrlShortener;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Redirect;
 
 class RedirectController extends Controller
 {
@@ -19,7 +21,37 @@ class RedirectController extends Controller
   }
 
   /**
-   * Store a newly created resource in storage.
+   * Report url.
+   *
+   * @param  Request  $request
+   * @return Response
+   */
+  public function report(Request $request, $code)
+  {
+    $this->validate($request, [
+      'selectedReportType' => 'required|string',
+    ]);
+
+    $base_url = UrlShortener::where('short_url', $code)->firstOrFail();
+
+    try {
+      $user = new UrlReport;
+      $user->visitor = '[]';
+      $user->report_type = $request->input('selectedReportType');
+      $user->user_id = $base_url->user_id;
+      $user->url_shortener_id = $base_url->id;
+      $user->state = 1;
+
+      $user->save();
+
+      return redirect("/");
+    } catch (Exception $e) {
+      return response()->json(['message' => 'Report registration failed!'], 409);
+    }
+  }
+
+  /**
+   * Redirect visitor to original url.
    *
    * @param  Request  $request
    * @return Response

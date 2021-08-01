@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {{-- <meta name="csrf-token" content="{{ csrf_token() }}"> --}}
   <title>@yield('title', 'Shortener URL Free')</title>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.2.0/tailwind.min.css'>
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css'>
@@ -27,7 +28,7 @@
   
   <!-- partial -->
   <script src='https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js'></script>
-
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   @yield('scripts')
 </body>
 </html>

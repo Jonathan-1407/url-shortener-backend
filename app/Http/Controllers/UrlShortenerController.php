@@ -21,10 +21,12 @@ class UrlShortenerController extends Controller
       if ($query == "") {
          $urls = UrlShortener::where('user_id', Auth::user()->id)->simplePaginate(8);
       } else {
-         $urls = UrlShortener::where('user_id', Auth::user()->id)->where('title', 'like', "%$query%")->orWhere('original_url', 'like', "%$query%")->simplePaginate(8);
+         $urls = UrlShortener::where('user_id', Auth::user()->id)->where(function ($q) use ($query) {
+            $q->where('title', 'like', "%$query%")->where('original_url', 'like', "%$query%");
+         })->simplePaginate(8);
       }
 
-      return response()->json(["data" => $urls], 200);
+      return response()->json(["urls" => $urls], 200);
    }
 
    /**
