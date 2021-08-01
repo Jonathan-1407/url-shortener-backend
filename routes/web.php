@@ -13,9 +13,8 @@
 |
 */
 
-$router->get('/', function () use ($router) {
-    return "URL shortener";
-});
+$router->get('/', 'RedirectController@index');
+$router->get('/{code}', 'RedirectController@redirect');
 
 $router->group(['prefix' => 'api'], function () use ($router) {
     $router->group(['prefix' => 'auth'], function () use ($router) {

@@ -38,7 +38,7 @@ class UrlShortenerController extends Controller
       $this->validate($request, [
          'title' => 'string|min:3|max:255',
          'original_url' => 'required|string|min:6',
-         'short_url' => 'required|min:6|max:50|unique:url_shorteners',
+         'short_url' => 'required|min:4|max:50|unique:url_shorteners',
       ]);
 
       try {
@@ -69,7 +69,7 @@ class UrlShortenerController extends Controller
       $this->validate($request, [
          'title' => 'string|min:3|max:255',
          'original_url' => 'required|string|min:6',
-         'short_url' => "required|min:6|max:50|unique:url_shorteners,id,$id",
+         'short_url' => "required|min:4|max:50|unique:url_shorteners,id,$id",
       ]);
 
       try {
