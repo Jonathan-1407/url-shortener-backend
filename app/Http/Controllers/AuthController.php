@@ -34,6 +34,7 @@ class AuthController extends Controller
             $plainPassword = $request->input('password');
             $user->password = app('hash')->make($plainPassword);
             $user->is_admin = 0;
+            $user->state = 1;
 
             $user->save();
 
@@ -69,7 +70,11 @@ class AuthController extends Controller
         $credentials = $request->only(['email', 'password']);
 
         if (!$token = Auth::attempt($credentials)) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+            return response()->json(['message' => 'The credentials entered do not match our records'], 401);
+        }
+
+        if (!Auth::user()->state) {
+            return response()->json(['message' => 'Account disabled'], 403);
         }
 
         return $this->respondWithToken($token);
@@ -78,10 +83,9 @@ class AuthController extends Controller
     /**
      * Get a authenticate user.
      *
-     * @param  Request  $request
      * @return Response
      */
-    public function profile(Request $request)
+    public function profile()
     {
         $user = Auth::user();
         return response()->json(["data" => $user], 200);
