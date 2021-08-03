@@ -10,17 +10,17 @@
 
 @section('content')
     @if($exists)
-    <a class="text-sm font-display font-semibold text-red-700 hover:text-red-800 cursor-pointer float-right pr-5" onclick="deleteConfirm('report-link')">
-      Report URL
-    </a>
+    <div class="flex justify-center flex-col w-full h-full h-screen">
     <form id="report-link" action="/{{$url->short_url}}/report" method="POST">
       <input type="hidden" id="selectedReportType" name="selectedReportType">
     </form>
-    <div class="flex justify-center flex-col w-full h-full h-screen">
-      <span class="text-md text-center font-semibold">It will be automatically redirected in</span>
-        <span class="text-center text-5xl font-bold text-indigo-500" id="countdown">10</span>
-      <span class="text-md text-center font-semibold">Seconds</span>
-      <span class="text-lg text-center font-semibold text-gray-700 pt-8">Thanks! for using our services</span>
+      <span class="text-md text-center font-semibold" id="text">Getting URL, wait:</span>
+      <span class="text-center text-5xl font-bold text-indigo-500" id="countdown">10</span>
+      <span class="text-md text-center font-semibold mb-4" id="text-second">Seconds</span>
+      <span class="text-lg text-center font-semibold text-gray-700 hidden m-4" id="thanks">Thanks! for using our services</span>
+      <a class="text-sm text-center font-display font-semibold text-red-400 hover:text-red-600 cursor-pointer hover:underline" onclick="deleteConfirm('report-link')">
+        Report URL
+      </a>
     </div>
     @else
     <div class="flex justify-center flex-col w-full h-full h-screen">
@@ -76,9 +76,12 @@
       var downloadTimer = setInterval(function(){
         if(timeleft <= 0){
           clearInterval(downloadTimer);
-          document.getElementById("countdown").innerHTML = "Redirecting...";
-          window.location.href = "{{$url->original_url}}";
+              document.getElementById("text").innerHTML = 'Prepared URL:';
+              document.getElementById("text-second").style.display = 'none';
+              document.getElementById("thanks").style.display = 'block';
+              document.getElementById("countdown").innerHTML = "<a href={{$url->original_url}} class='rounded-full py-3 px-6 bg-indigo-500 text-sm text-white'>Get Link</a>";
         } else {
+              document.getElementById("text").innerHTML = 'Getting URL, wait:';
           document.getElementById("countdown").innerHTML = timeleft;
         }
         timeleft -= 1;

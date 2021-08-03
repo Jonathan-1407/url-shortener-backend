@@ -59,6 +59,7 @@ $app->singleton(
 |
 */
 
+$app->configure('services');
 $app->configure('app');
 
 /*
@@ -72,9 +73,9 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    ipinfo\ipinfolaravel\ipinfolaravel::class,
+]);
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
