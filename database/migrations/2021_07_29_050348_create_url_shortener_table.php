@@ -19,7 +19,7 @@ class CreateUrlShortenerTable extends Migration
             $table->text('original_url');
             $table->string('short_url')->unique();
             $table->integer('visitors')->default(0);
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

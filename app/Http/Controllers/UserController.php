@@ -64,4 +64,42 @@ class UserController extends Controller
       return response()->json(['message' => 'User update failed!'], 409);
     }
   }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  $id
+   * @return Response
+   */
+  public function disable($id)
+  {
+    try {
+      $user = User::find($id);
+      $user->state = 0;
+      $user->save();
+
+      return response()->json(['user' => $user, 'message' => 'User disabled!'], 200);
+    } catch (Exception $e) {
+      return response()->json(['message' => 'User disable failed!'], 409);
+    }
+  }
+
+  /**
+   * Update the specified resource in storage.
+   *
+   * @param  $id
+   * @return Response
+   */
+  public function enable($id)
+  {
+    try {
+      $user = User::find($id);
+      $user->state = 1;
+      $user->save();
+
+      return response()->json(['user' => $user, 'message' => 'User enabled!'], 200);
+    } catch (Exception $e) {
+      return response()->json(['message' => 'User enable failed!'], 409);
+    }
+  }
 }

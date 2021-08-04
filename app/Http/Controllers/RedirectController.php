@@ -4,18 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\UrlReport;
 use App\Models\UrlShortener;
-use Illuminate\Http\Request;
+use App\Models\Visitor;
 use Exception;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Http\Request;
 
 class RedirectController extends Controller
 {
   /**
    * Display a listing of the resource.
    *
-   * @return Response
+   * @return View
    */
-  public function index(Request $request)
+  public function index()
   {
     return view("home");
   }
@@ -44,7 +44,6 @@ class RedirectController extends Controller
       $url_report = new UrlReport;
       $url_report->visitor = $visitor;
       $url_report->report_type = $request->input('selectedReportType');
-      $url_report->user_id = $base_url->user_id;
       $url_report->url_shortener_id = $base_url->id;
       $url_report->state = 1;
 
@@ -64,11 +63,22 @@ class RedirectController extends Controller
    */
   public function redirect(Request $request, $code)
   {
+    if ($request->getClientIp() == "127.0.0.1") {
+      $visitor = '{"ip": "181.154.103.45","city": "New York","region": "United States","country": "US"}';
+    } else {
+      $visitor = json_encode($request->ipinfo->all);
+    }
+
     $base_url = UrlShortener::where('short_url', $code);
     $exists = $base_url->exists();
     $url = $base_url->first();
 
     if ($exists) {
+      $register_visitor = new Visitor;
+      $register_visitor->visitor = $visitor;
+      $register_visitor->url_shortener_id = $url->id;
+      $register_visitor->save();
+
       $url->visitors += 1;
       $url->save();
     }

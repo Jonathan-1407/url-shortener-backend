@@ -33,14 +33,22 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             /* Matches "/api/auth/admin/route-name */
             $router->group(['prefix' => 'users'], function () use ($router) {
                 $router->get('/', 'UserController@users');
+                $router->put('/disable/{id}', 'UserController@disable');
+                $router->put('/enable/{id}', 'UserController@enable');
+            });
+            $router->group(['prefix' => 'reports'], function () use ($router) {
+                $router->get('/', 'ReportController@reports');
+                $router->put('/hide/{id}', 'ReportController@hide');
+                $router->delete('/delete/url/{id}', 'UrlShortenerController@destroy');
             });
         });
-    });
-    $router->group(['prefix' => 'url', 'middleware' => 'auth'], function () use ($router) {
-        /* Matches "/api/url/route-name */
-        $router->get('/owner', 'UrlShortenerController@index');
-        $router->post('/create', 'UrlShortenerController@store');
-        $router->put('/update/{id}', 'UrlShortenerController@update');
-        $router->delete('/delete/{id}', 'UrlShortenerController@destroy');
+        $router->group(['prefix' => 'url', 'middleware' => 'auth'], function () use ($router) {
+            /* Matches "/api/url/route-name */
+            $router->get('/owner', 'UrlShortenerController@index');
+            $router->get('/owner/{id}', 'UrlShortenerController@visitors');
+            $router->post('/create', 'UrlShortenerController@store');
+            $router->put('/update/{id}', 'UrlShortenerController@update');
+            $router->delete('/delete/{id}', 'UrlShortenerController@destroy');
+        });
     });
 });

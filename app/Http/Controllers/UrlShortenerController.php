@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\UrlShortener;
+use App\Models\Visitor;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 
 class UrlShortenerController extends Controller
 {
@@ -27,6 +28,19 @@ class UrlShortenerController extends Controller
       }
 
       return response()->json(["urls" => $urls], 200);
+   }
+
+   /**
+    * Display a listing of the resource.
+    *
+    * @return Response
+    */
+   public function visitors(Request $request, $id)
+   {
+
+      $visitors = Visitor::where('url_shortener_id', $id)->simplePaginate(8);
+
+      return response()->json(["visitors" => $visitors], 200);
    }
 
    /**
@@ -95,9 +109,13 @@ class UrlShortenerController extends Controller
     */
    public function destroy($id)
    {
-      $url_shorten = UrlShortener::findOrFail($id);
-      $url_shorten->delete();
+      try {
+         $url_shorten = UrlShortener::findOrFail($id);
+         $url_shorten->delete();
 
-      return response()->json(['message' => 'Url deleted!'], 200);
+         return response()->json(['message' => 'Url deleted!'], 200);
+      } catch (Exception $e) {
+         return response()->json(['message' => 'Url delete failed!'], 409);
+      }
    }
 }

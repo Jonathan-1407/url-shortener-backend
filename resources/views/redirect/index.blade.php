@@ -76,12 +76,12 @@
       var downloadTimer = setInterval(function(){
         if(timeleft <= 0){
           clearInterval(downloadTimer);
-              document.getElementById("text").innerHTML = 'Prepared URL:';
-              document.getElementById("text-second").style.display = 'none';
-              document.getElementById("thanks").style.display = 'block';
-              document.getElementById("countdown").innerHTML = "<a href={{$url->original_url}} class='rounded-full py-3 px-6 bg-indigo-500 text-sm text-white'>Get Link</a>";
+          document.getElementById("text").innerHTML = 'Prepared URL:';
+          document.getElementById("text-second").style.display = 'none';
+          document.getElementById("thanks").style.display = 'block';
+          document.getElementById("countdown").innerHTML = "<a href={{$url->original_url}} class='rounded-full animate-pulse  py-3 px-6 bg-indigo-700 text-sm text-white hover:bg-indigo-900'>Get Link</a>";
         } else {
-              document.getElementById("text").innerHTML = 'Getting URL, wait:';
+          document.getElementById("text").innerHTML = 'Getting URL, wait:';
           document.getElementById("countdown").innerHTML = timeleft;
         }
         timeleft -= 1;

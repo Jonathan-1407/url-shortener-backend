@@ -17,8 +17,7 @@ class CreateUrlReportsTable extends Migration
             $table->id();
             $table->json('visitor')->default('[]');
             $table->string('report_type')->default("Spam Content");
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('url_shortener_id')->constrained();
+            $table->foreignId('url_shortener_id')->constrained()->cascadeOnDelete();
             $table->boolean('state')->default(0);
 
             $table->timestamps();
