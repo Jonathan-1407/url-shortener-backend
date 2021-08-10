@@ -60,6 +60,7 @@ $app->singleton(
 */
 
 $app->configure('services');
+$app->configure('cors');
 $app->configure('app');
 
 /*
@@ -75,6 +76,7 @@ $app->configure('app');
 
 $app->middleware([
     ipinfo\ipinfolaravel\ipinfolaravel::class,
+    Fruitcake\Cors\HandleCors::class,
 ]);
 
 $app->routeMiddleware([
@@ -96,6 +98,7 @@ $app->routeMiddleware([
 // $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+$app->register(Fruitcake\Cors\CorsServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

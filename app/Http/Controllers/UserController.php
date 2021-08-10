@@ -43,7 +43,6 @@ class UserController extends Controller
 
     $this->validate($request, [
       'name' => 'required|string|min:3|max:255',
-      'email' => "required|email|unique:users,id,$user_id",
       'avatar' => "required|string|max:255",
       'password' => 'confirmed|min:6',
     ]);
@@ -51,7 +50,6 @@ class UserController extends Controller
     try {
       $user = User::findOrFail($user_id);
       $user->name = $request->input('name');
-      $user->email = $request->input('email');
       $user->avatar = $request->input('avatar');
       if (strlen($request->password) > 0) {
         $plainPassword = $request->input('password');

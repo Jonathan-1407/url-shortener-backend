@@ -49,6 +49,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
             $router->post('/create', 'UrlShortenerController@store');
             $router->put('/update/{id}', 'UrlShortenerController@update');
             $router->delete('/delete/{id}', 'UrlShortenerController@destroy');
+            $router->get('/users/chart/{id}', 'UrlShortenerController@chart');
         });
     });
 });
