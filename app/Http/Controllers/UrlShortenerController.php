@@ -21,22 +21,22 @@ class UrlShortenerController extends Controller
       $query = $request->q;
 
       if ($query == "") {
-         $urls = UrlShortener::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(2);
+         $urls = UrlShortener::where('user_id', Auth::user()->id)->orderBy('created_at', 'DESC')->paginate(6);
       } else {
          $urls = UrlShortener::where('user_id', Auth::user()->id)->where(function ($q) use ($query) {
             $q->where('title', 'like', "%$query%")->orWhere('original_url', 'like', "%$query%");
-         })->paginate(2);
+         })->paginate(6);
       }
 
       return response()->json(
          [
             'pagination' => [
                'total' => $urls->total(),
-               'current_page' => $urls->currentPage(),
-               'per_page' => $urls->perPage(),
-               'last_page' => $urls->lastPage(),
-               'from' => $urls->firstItem(),
-               'to' => $urls->lastItem(),
+               'current_page' => $urls->currentpage(),
+               'per_page' => $urls->perpage(),
+               'last_page' => $urls->lastpage(),
+               'from' => $urls->firstitem(),
+               'to' => $urls->lastitem(),
             ], "urls" => $urls->forget('pagination')
          ],
          200
@@ -48,12 +48,23 @@ class UrlShortenerController extends Controller
     *
     * @return Response
     */
-   public function visitors(Request $request, $id)
+   public function visitors($id)
    {
+      $visitors = Visitor::where('url_shortener_id', $id)->orderBy('created_at', 'DESC')->paginate(4);
 
-      $visitors = Visitor::where('url_shortener_id', $id)->simplePaginate(8);
-
-      return response()->json(["visitors" => $visitors], 200);
+      return response()->json(
+         [
+            'pagination' => [
+               'total' => $visitors->total(),
+               'current_page' => $visitors->currentpage(),
+               'per_page' => $visitors->perpage(),
+               'last_page' => $visitors->lastpage(),
+               'from' => $visitors->firstitem(),
+               'to' => $visitors->lastitem(),
+            ], "visitors" => $visitors->forget('pagination')
+         ],
+         200
+      );
    }
 
    /**
