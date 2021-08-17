@@ -59,7 +59,7 @@ $app->singleton(
 |
 */
 
-$app->configure('services');
+$app->configure('location');
 $app->configure('cors');
 $app->configure('app');
 
@@ -75,7 +75,6 @@ $app->configure('app');
 */
 
 $app->middleware([
-    ipinfo\ipinfolaravel\ipinfolaravel::class,
     Fruitcake\Cors\HandleCors::class,
 ]);
 
@@ -99,6 +98,7 @@ $app->routeMiddleware([
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(Fruitcake\Cors\CorsServiceProvider::class);
+$app->register(Stevebauman\Location\LocationServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*

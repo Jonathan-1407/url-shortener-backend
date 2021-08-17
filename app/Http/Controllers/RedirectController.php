@@ -7,6 +7,7 @@ use App\Models\UrlShortener;
 use App\Models\Visitor;
 use Exception;
 use Illuminate\Http\Request;
+use Stevebauman\Location\Facades\Location as Location;
 
 class RedirectController extends Controller
 {
@@ -29,9 +30,12 @@ class RedirectController extends Controller
   public function report(Request $request, $code)
   {
     if ($request->getClientIp() == "127.0.0.1") {
-      $visitor = '{"ip": "181.154.103.45","city": "New York","region": "United States","country": "US"}';
+      $visitor = '{"ip":"127.0.0.1","countryName":"United States","countryCode":"US","regionCode":"NY","regionName":"New York","cityName":"Brooklyn","zipCode":"11201","isoCode":null,"postalCode":null,"latitude":"40.694","longitude":"-73.9901","metroCode":null,"areaCode":"NY","driver":false}';
     } else {
-      $visitor = json_encode($request->ipinfo->all);
+      $userIp = $request->ip();
+      $locationData = Location::get($userIp);
+      $locationData->driver = false;
+      $visitor = json_encode($locationData);
     }
 
     $this->validate($request, [
@@ -64,9 +68,12 @@ class RedirectController extends Controller
   public function redirect(Request $request, $code)
   {
     if ($request->getClientIp() == "127.0.0.1") {
-      $visitor = '{"ip": "181.154.103.45","city": "New York","region": "United States","country": "US"}';
+      $visitor = '{"ip":"127.0.0.1","countryName":"United States","countryCode":"US","regionCode":"NY","regionName":"New York","cityName":"Brooklyn","zipCode":"11201","isoCode":null,"postalCode":null,"latitude":"40.694","longitude":"-73.9901","metroCode":null,"areaCode":"NY","driver": false}';
     } else {
-      $visitor = json_encode($request->ipinfo->all);
+      $userIp = $request->ip();
+      $locationData = Location::get($userIp);
+      $locationData->driver = false;
+      $visitor = json_encode($locationData);
     }
 
     $base_url = UrlShortener::where('short_url', $code);

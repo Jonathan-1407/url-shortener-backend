@@ -88,6 +88,6 @@ class AuthController extends Controller
     public function profile()
     {
         $user = Auth::user();
-        return response()->json(["data" => $user], 200);
+        return response()->json(["user" => $user], 200);
     }
 }
