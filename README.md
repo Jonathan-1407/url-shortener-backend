@@ -1,4 +1,10 @@
-# Lumen PHP Framework
+# Shortener URL API
+API building with Laravel Lumen a framework for micro-services 
+
+## Live Demo
+You can see it live at the following link: ***[Click here](https://shjc.herokuapp.com)***
+
+## Lumen PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/lumen-framework.svg)](https://travis-ci.org/laravel/lumen-framework)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel/framework)](https://packagist.org/packages/laravel/lumen-framework)
